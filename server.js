@@ -18,6 +18,17 @@ app.get('/todos', function(req, res) {
 app.get('/todos/:id', function(req, res) {
 
     var targetID = parseInt(req.params.id, 10);
+    db.todo.findById(targetID).then(function(todo) {
+        if (!!todo) {
+            res.json(todo.toJSON());
+        } else {
+            res.status(400).json(e);
+        }
+
+    }, function(e) {
+        res.status(500).json(e);
+    });
+    /*
     var matched = _.findWhere(todos, { id: targetID });
 
     if (matched) {
@@ -26,7 +37,7 @@ app.get('/todos/:id', function(req, res) {
     } else {
         console.log("Not found");
         res.status(404).send();
-    }
+    }*/
 });
 
 app.post('/todos', function(req, res) {
